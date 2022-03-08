@@ -1,5 +1,6 @@
 package mvc.springBoot.config;
 
+import mvc.springBoot.service.UserService;
 import mvc.springBoot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,22 +18,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     SuccessUserHandler successUserHandler;
     @Autowired
-    UserServiceImpl userServiceImpl;
+    UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(@Qualifier("userDetailServiceImpl") UserServiceImpl userServiceImpl, SuccessUserHandler successUserHandler) {
-        this.userServiceImpl = userServiceImpl;
+    public WebSecurityConfig(@Qualifier("userDetailServiceImpl") UserService userService, SuccessUserHandler successUserHandler) {
+        this.userService = userService;
         this.successUserHandler = successUserHandler;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//            .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").permitAll()
+
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
             .antMatchers("/login").anonymous()
             .anyRequest().authenticated()
             .and()
@@ -48,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userServiceImpl)
+                .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
     }
 

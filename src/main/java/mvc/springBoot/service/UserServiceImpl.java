@@ -31,10 +31,12 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
     public User findUserById(Integer userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
+
     public List<User> allUsers() {
         return userRepository.findAll();
     }
@@ -49,11 +51,21 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return true;
     }
-    public boolean deleteUser(Integer userId) {
-        if (userRepository.findById(userId).isPresent()) {
-            userRepository.deleteById(userId);
-            return true;
-        }
-        return false;
+    public void updateAll(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+    public void update(User updated, int id) {
+        User userToBeUpdated = findUserById(id);
+        userToBeUpdated.setName(updated.getName());
+        userToBeUpdated.setLastname(updated.getLastname());
+        userToBeUpdated.setAge(updated.getAge());
+        userToBeUpdated.setRoles(updated.getRoles());
+        userToBeUpdated.setUsername(updated.getUsername());
+        userToBeUpdated.setPassword(updated.getPassword());
+        userRepository.save(userToBeUpdated);
+    }
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 }

@@ -1,5 +1,8 @@
 package mvc.springBoot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,6 +11,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
+//@JsonIgnoreProperties("role_id")
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -19,10 +23,12 @@ public class User implements UserDetails {
     private String username;
     @Column
     private String password;
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    @JsonIgnore
+//    @JsonManagedReference
     private Set<Role> roles;
     @Column
     private String name;
