@@ -31,6 +31,10 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+    public User findUserByUsername(String username) {
+        Optional<User> userFromDb = Optional.ofNullable(userRepository.findByUsername(username));
+        return userFromDb.orElse(new User());
+    }
 
     public User findUserById(Integer userId) {
         Optional<User> userFromDb = userRepository.findById(userId);

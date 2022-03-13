@@ -9,6 +9,7 @@ public interface UserService extends UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username);
+    public User findUserByUsername(String username);
     public User findUserById(Integer userId);
     public List<User> allUsers();
     public boolean saveUser(User user);
