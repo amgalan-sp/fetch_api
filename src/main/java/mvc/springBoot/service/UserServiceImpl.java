@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     public List<User> allUsers() {
         return userRepository.findAll();
     }
+
     public boolean saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 

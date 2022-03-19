@@ -17,7 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -43,17 +46,25 @@ public class RestUserController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/admin/users/{id}")
+    public ResponseEntity<User> apiGetUserById(@PathVariable("id") int id) {
+        User userById = userService.findUserById(id);
+        return userById != null
+                ? new ResponseEntity<>(userById, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping(value = "/user/{username}")
     public ResponseEntity<User> apiGetOneUser(@PathVariable("username") String username,Model model) {
         User user = userService.findUserByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-
     @PostMapping("/admin/users")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user){/*}, @RequestParam("roles") ArrayList<Long> roles) {*/
         userService.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+//        user.setRoles(roles.stream().map(roleService::getRole).collect(Collectors.toSet()));
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping("/admin/users/{id}")
@@ -68,5 +79,4 @@ public class RestUserController {
         userService.deleteUser(user);
         return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
     }
-
 }
