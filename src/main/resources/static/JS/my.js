@@ -7,11 +7,11 @@ function allReadUsers() {
         .then(res => res.json())
         .then(userslist => {
             let output = ``
-            if (userslist.length > 0){
-                userslist.forEach(user =>{
+            if (userslist.length > 0) {
+                userslist.forEach(user => {
                     let rolesList = "";
                     user.authorities.forEach(role => rolesList += role.name + " ")
-                    output +=`<tr>
+                    output += `<tr>
                                 <td>${user.id}</td>
                                 <td>${user.name}</td>
                                 <td>${user.lastname}</td>
@@ -23,30 +23,11 @@ function allReadUsers() {
                                 </tr>`
                 })
                 document.getElementById("userslist").innerHTML = output;
-            }})
+            }
+        })
 }
 
-function readUserByUsername(username) {
-    fetch("/user/" + username)
-        .then(res => res.json())
-        .then(userslist => {
-            let outputw = ``
-            if (userslist.length > 0){
-                userslist.forEach(user =>{
-                    let rolesList = "";
-                    user.authorities.forEach(role => rolesList += role.name + " ")
-                    outputw +=`<tr>
-                                <td>${user.id}</td>
-                                <td>${user.name}</td>
-                                <td>${user.lastname}</td>
-                                <td>${user.age}</td>
-                                <td>${user.username}</td>
-                                <td>${rolesList}</td>
-                                </tr>`
-                })
-                document.getElementById("userReport").innerHTML = outputw;
-            }})
-}
+
 function editModal(id) {
     fetch("/admin/users/" + id)
         .then(res => res.json())
@@ -108,7 +89,7 @@ function refreshTable() {
     while (table.rows.length > 1) {
         table.deleteRow(1)
     }
-    setTimeout(allReadUsers, 500);
+    setTimeout(allReadUsers, 10);
 }
 
 function deleteModal(id) {

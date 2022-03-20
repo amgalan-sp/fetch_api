@@ -55,7 +55,7 @@ public class RestUserController {
     }
 
     @GetMapping(value = "/user/{username}")
-    public ResponseEntity<User> apiGetOneUser(@PathVariable("username") String username,Model model) {
+    public ResponseEntity<User> apiGetOneUser(@PathVariable("username") String username,  Model model) {
         User user = userService.findUserByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
