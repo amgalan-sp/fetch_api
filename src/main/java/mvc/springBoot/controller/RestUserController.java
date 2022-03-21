@@ -61,14 +61,13 @@ public class RestUserController {
     }
 
     @PostMapping("/admin/users")
-    public ResponseEntity<User> addUser(@RequestBody User user){/*}, @RequestParam("roles") ArrayList<Long> roles) {*/
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         userService.saveUser(user);
-//        user.setRoles(roles.stream().map(roleService::getRole).collect(Collectors.toSet()));
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping("/admin/users/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") int id) {
+    public ResponseEntity<User> updateAll(@RequestBody User user, @PathVariable("id") int id) {
         userService.updateAll(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

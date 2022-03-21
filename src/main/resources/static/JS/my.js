@@ -25,33 +25,11 @@ function allReadUsers() {
                 document.getElementById("userslist").innerHTML = output;
             }
         })
+
 }
 
 
-function editModal(id) {
-    fetch("/admin/users/" + id)
-        .then(res => res.json())
-        .then(user => {
-            $("#editUserId").attr("value", user.id)
-            $("#editFirstname").attr("value", user.name)
-            $("#editAge").attr("value", user.age)
-            $("#editLastname").attr("value", user.lastname)
-            $("#editLogin").attr("value", user.username)
-            $("#editPassword").attr("value", user.password)
-            $("#editRoles").attr("value", user.roles)
-        })
-}
 
-function getUserRole(setRole) {
-    let roles = []
-
-    if (setRole.indexOf("ROLE_ADMIN") !== -1) {
-        roles.push({id: 1, role: "ROLE_ADMIN", authority: "ROLE_ADMIN"})
-    }else if (setRole.indexOf("ROLE_USER") !== -1) {
-        roles.push({id: 2, role: "ROLE_USER", authority: "ROLE_USER"})
-    }
-    return roles
-}
 
 function updateUser() {
 
@@ -84,12 +62,40 @@ function updateUser() {
         .then(() => allReadUsers())
 }
 
+function editModal(id) {
+    fetch("/admin/users/" + id)
+        .then(res => res.json())
+        .then(user => {
+            $("#editUserId").attr("value", user.id)
+            $("#editFirstname").attr("value", user.name)
+            $("#editAge").attr("value", user.age)
+            $("#editLastname").attr("value", user.lastname)
+            $("#editLogin").attr("value", user.username)
+            $("#editPassword").attr("value", user.password)
+            $("#editRoles").attr("value", user.roles)
+        })
+}
 function refreshTable() {
     let table = document.getElementById('userslist')
     while (table.rows.length > 1) {
         table.deleteRow(1)
     }
     setTimeout(allReadUsers, 10);
+}
+function getUserRole(setRole) {
+    let roles = []
+
+    if (setRole.indexOf("ROLE_ADMIN") !== -1) {
+        roles.push({id: 1, name: "ROLE_ADMIN", authority: "ROLE_ADMIN"})
+        alert("ADMIN")
+
+    }else if (setRole.indexOf("ROLE_USER") !== -1) {
+        roles.push({id: 2, name: "ROLE_USER", authority: "ROLE_USER"})
+        alert("USER")
+
+    }
+    return roles
+
 }
 
 function deleteModal(id) {
