@@ -35,16 +35,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> userFromDb = Optional.ofNullable(userRepository.findByUsername(username));
         return userFromDb.orElse(new User());
     }
-
     public User findUserById(Integer userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
-
     public List<User> allUsers() {
         return userRepository.findAll();
     }
-
     public boolean saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 

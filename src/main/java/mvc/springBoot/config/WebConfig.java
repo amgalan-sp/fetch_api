@@ -27,12 +27,11 @@ public class WebConfig implements WebMvcConfigurer {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/admin").setViewName("users");
-//        registry.addViewController("/").setViewName("index");
         registry.addViewController("/user").setViewName("user");
-
     }
 }
 

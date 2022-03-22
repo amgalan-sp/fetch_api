@@ -28,9 +28,6 @@ function allReadUsers() {
 
 }
 
-
-
-
 function updateUser() {
 
     let id = document.getElementById("editUserId").value;
@@ -75,6 +72,7 @@ function editModal(id) {
             $("#editRoles").attr("value", user.roles)
         })
 }
+
 function refreshTable() {
     let table = document.getElementById('userslist')
     while (table.rows.length > 1) {
@@ -82,20 +80,16 @@ function refreshTable() {
     }
     setTimeout(allReadUsers, 10);
 }
+
 function getUserRole(setRole) {
+
     let roles = []
-
     if (setRole.indexOf("ROLE_ADMIN") !== -1) {
-        roles.push({id: 1, name: "ROLE_ADMIN", authority: "ROLE_ADMIN"})
-        alert("ADMIN")
-
-    }else if (setRole.indexOf("ROLE_USER") !== -1) {
-        roles.push({id: 2, name: "ROLE_USER", authority: "ROLE_USER"})
-        alert("USER")
-
+        roles.push({id: 1})
+    } if (setRole.indexOf("ROLE_USER") !== -1) {
+        roles.push({id: 2})
     }
     return roles
-
 }
 
 function deleteModal(id) {
@@ -139,7 +133,7 @@ function deleteUser() {
 
 function createUser() {
 
-    let firstname = document.getElementById("newFirstname").value
+    let name = document.getElementById("newFirstname").value
     let lastname = document.getElementById("newLastname").value
     let age = document.getElementById("newUserAge").value
     let username = document.getElementById("newUsername").value
@@ -147,7 +141,7 @@ function createUser() {
     let roles = getUserRole(Array.from(document.getElementById("newRoles").selectedOptions).map(options => options.value))
 
     let user = {
-        name: firstname,
+        name: name,
         lastname: lastname,
         age: age,
         username: username,

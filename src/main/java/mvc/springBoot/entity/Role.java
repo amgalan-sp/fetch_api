@@ -1,12 +1,9 @@
 package mvc.springBoot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +14,6 @@ public class Role implements GrantedAuthority {
     private String name;
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-//    @JsonManagedReference
     private Set<User> users  = new HashSet<>();
 
     public Set<User> getUsers() {
@@ -58,11 +54,12 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getName();
+        return name;
     }
 
     @Override
     public String toString() {
         return name.toString();
     }
+
 }

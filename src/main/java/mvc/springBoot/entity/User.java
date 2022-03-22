@@ -1,17 +1,13 @@
 package mvc.springBoot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
-//@JsonIgnoreProperties("role_id")
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -23,7 +19,7 @@ public class User implements UserDetails {
     private String username;
     @Column
     private String password;
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -37,7 +33,21 @@ public class User implements UserDetails {
 
     public User() {
     }
-
+    public User(String name, String lastname, int age, String username, String password) {
+        this.name = name;
+        this.lastname = lastname;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+    }
+    public User(String name, String lastname, int age, String username, String password, Set<Role> roles) {
+        this.name = name;
+        this.lastname = lastname;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
     public int getId() {
         return id;
     }
@@ -119,7 +129,6 @@ public class User implements UserDetails {
         return true;
     }
 
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -127,7 +136,6 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
